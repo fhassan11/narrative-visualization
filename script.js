@@ -8,11 +8,11 @@ const svg = d3.select("#visualization")
     .attr("height", height);
 
 const data = [
-    { year: 2000, temperature: 14.5, lat: 20.0, lon: -5.0 },
-    { year: 2005, temperature: 14.8, lat: 30.0, lon: 10.0 },
-    { year: 2010, temperature: 15.0, lat: 40.0, lon: -20.0 },
-    { year: 2015, temperature: 15.5, lat: 50.0, lon: 0.0 },
-    { year: 2020, temperature: 15.8, lat: 60.0, lon: 10.0 }
+    { year: 2000, temperature: 14.29, lat: 0, lon: 0 },
+    { year: 2005, temperature: 14.39, lat: 0, lon: 0 },
+    { year: 2010, temperature: 14.49, lat: 0, lon: 0 },
+    { year: 2015, temperature: 14.69, lat: 0, lon: 0 },
+    { year: 2020, temperature: 14.89, lat: 0, lon: 0 }
 ];
 
 const x = d3.scaleLinear()
@@ -20,7 +20,7 @@ const x = d3.scaleLinear()
     .range([50, width - 50]);
 
 const y = d3.scaleLinear()
-    .domain([14, 16])
+    .domain([14, 15])
     .range([height - 50, 50]);
 
 function showScene(scene) {
@@ -30,6 +30,9 @@ function showScene(scene) {
 
 function updateScene() {
     svg.selectAll("*").remove();
+    d3.select("#title").text("");
+    d3.select("#description").text("");
+
     if (activeScene === 1) {
         renderOverview();
     } else if (activeScene === 2) {
@@ -40,6 +43,9 @@ function updateScene() {
 }
 
 function renderOverview() {
+    d3.select("#title").text("Global Temperature Changes (2000-2020)");
+    d3.select("#description").text("This overview shows the global average temperatures from 2000 to 2020.");
+
     svg.append("g")
         .attr("transform", `translate(0, ${height - 50})`)
         .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")));
@@ -64,20 +70,21 @@ function renderOverview() {
         .attr("class", "dot")
         .attr("cx", d => x(d.year))
         .attr("cy", d => y(d.temperature))
-        .attr("r", 5);
+        .attr("r", 5)
+        .attr("fill", "black");
 
     const annotations = [
         {
             note: { label: "Temperature in 2000", title: "2000" },
             x: x(2000),
-            y: y(14.5),
+            y: y(14.29),
             dx: 50,
             dy: -50
         },
         {
             note: { label: "Temperature in 2020", title: "2020" },
             x: x(2020),
-            y: y(15.8),
+            y: y(14.89),
             dx: -50,
             dy: -50
         }
@@ -92,6 +99,9 @@ function renderOverview() {
 }
 
 function renderYearFocus() {
+    d3.select("#title").text("Focus on the Year 2010");
+    d3.select("#description").text("This section highlights the temperature for the year 2010 with additional details.");
+
     const yearFocusData = data.filter(d => d.year === 2010);
 
     svg.append("g")
@@ -134,7 +144,7 @@ function renderYearFocus() {
         {
             note: { label: "Temperature in 2010", title: "2010" },
             x: x(2010),
-            y: y(15.0),
+            y: y(14.49),
             dx: 50,
             dy: -50
         }
@@ -149,6 +159,9 @@ function renderYearFocus() {
 }
 
 function renderInteractiveMap() {
+    d3.select("#title").text("Interactive Map of Temperature Changes");
+    d3.select("#description").text("Explore global temperature changes by interacting with the map.");
+
     const projection = d3.geoMercator()
         .scale(150)
         .translate([width / 2, height / 1.5]);

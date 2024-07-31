@@ -7,6 +7,9 @@
     <script src="https://d3-annotation.susielu.com/d3-annotation.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         .annotation {
             font-size: 12px;
         }
@@ -18,13 +21,28 @@
         }
         .button-container {
             margin: 10px 0;
+            text-align: center;
         }
         button {
             margin: 0 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .title {
+            font-size: 24px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .description {
+            font-size: 16px;
+            text-align: center;
+            margin: 10px 0 30px 0;
         }
     </style>
 </head>
 <body>
+    <div id="title" class="title"></div>
+    <div id="description" class="description"></div>
     <div id="visualization"></div>
     <div class="button-container">
         <button onclick="showScene(1)">Overview</button>
