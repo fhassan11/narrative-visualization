@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Narrative Visualization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3-annotation.susielu.com/d3-annotation.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <style>
+        .annotation {
+            font-size: 12px;
+        }
+        .scene {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .button-container {
+            margin: 10px 0;
+        }
+        button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="visualization"></div>
+    <div class="button-container">
+        <button onclick="showScene(1)">Overview</button>
+        <button onclick="showScene(2)">Year Focus</button>
+        <button onclick="showScene(3)">Interactive Map</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
