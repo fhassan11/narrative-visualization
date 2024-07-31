@@ -8,11 +8,11 @@ const svg = d3.select("#visualization")
     .attr("height", height);
 
 const data = [
-    { year: 2000, temperature: 14.5 },
-    { year: 2005, temperature: 14.8 },
-    { year: 2010, temperature: 15.0 },
-    { year: 2015, temperature: 15.5 },
-    { year: 2020, temperature: 15.8 }
+    { year: 2000, temperature: 14.5, lat: 20.0, lon: -5.0 },
+    { year: 2005, temperature: 14.8, lat: 30.0, lon: 10.0 },
+    { year: 2010, temperature: 15.0, lat: 40.0, lon: -20.0 },
+    { year: 2015, temperature: 15.5, lat: 50.0, lon: 0.0 },
+    { year: 2020, temperature: 15.8, lat: 60.0, lon: 10.0 }
 ];
 
 const x = d3.scaleLinear()
@@ -149,7 +149,6 @@ function renderYearFocus() {
 }
 
 function renderInteractiveMap() {
-    // Example: Using dummy data for map
     const projection = d3.geoMercator()
         .scale(150)
         .translate([width / 2, height / 1.5]);
@@ -168,8 +167,8 @@ function renderInteractiveMap() {
         svg.selectAll(".circle")
             .data(data)
             .enter().append("circle")
-            .attr("cx", d => projection([0, d.temperature])[0])
-            .attr("cy", d => projection([0, d.temperature])[1])
+            .attr("cx", d => projection([d.lon, d.lat])[0])
+            .attr("cy", d => projection([d.lon, d.lat])[1])
             .attr("r", 5)
             .attr("fill", "blue")
             .on("mouseover", function(event, d) {
@@ -190,6 +189,18 @@ function renderInteractiveMap() {
             .on("mouseout", function() {
                 d3.select(this).attr("fill", "blue");
                 d3.select("#tooltip").remove();
+            })
+            .on("click", function(event, d) {
+                d3.select("#info").remove();
+                svg.append("text")
+                    .attr("id", "info")
+                    .attr("x", 10)
+                    .attr("y", 20)
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .attr("fill", "black")
+                    .text(`Year: ${d.year}, Temperature: ${d.temperature}°C, Location: (${d.lat}, ${d.lon})`);
             });
     });
 }
